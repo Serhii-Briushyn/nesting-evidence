@@ -1,0 +1,69 @@
+body {
+  font-family: "Roboto", sans-serif;
+  background: var(--color-blue-light);
+  color: var(--color-blue);
+  margin: 0;
+  min-width: 768px;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-family: inherit;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+a {
+  font-family: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  font-family: inherit;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+button {
+  font-family: inherit;
+  padding: 0;
+  border: none;
+}
+
+button:disabled,
+.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+input {
+  font-family: inherit;
+  outline: none;
+}
+
+.scan-scope {
+  --scan-play: var(--scan-play-default);
+  --scan-opacity: var(--scan-opacity-default);
+}
+
+.scan-scope:focus-within {
+  --scan-play: running;
+  --scan-opacity: 1;
+}

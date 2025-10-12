@@ -22,7 +22,15 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "baseUrl": "app/renderer",
+    "paths": {
+      "@app/*": ["app/*"],
+      "@features/*": ["features/*"],
+      "@pages/*": ["pages/*"],
+      "@shared/*": ["shared/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["app/renderer"]
 }
