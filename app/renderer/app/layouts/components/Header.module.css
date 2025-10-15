@@ -18,7 +18,7 @@
 .logo,
 .nesting {
   font-size: 32px;
-  font-weight: 600;
+  font-weight: 500;
   font-style: italic;
   color: var(--color-yellow);
   position: absolute;
@@ -39,11 +39,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 24px;
+  gap: 36px;
 }
 
 .link {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 500;
   color: var(--color-white);
   transition: all 0.2s ease-in;

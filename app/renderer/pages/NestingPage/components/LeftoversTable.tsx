@@ -1,3 +1,5 @@
+import { FaXmark } from "react-icons/fa6";
+
 import { keyOf } from "@features/nesting/lib/keyOf";
 
 import styles from "../NestingPage.module.css";
@@ -43,12 +45,10 @@ export function LeftoversTable({
                 <td>{row.length}</td>
                 <td>
                   <button
-                    className={styles.btn_table}
+                    className={styles.btn_close}
                     onClick={() => onRemove(k)}
                   >
-                    <svg>
-                      <use href="../../../shared/icons/close-large-line.svg" />
-                    </svg>
+                    <FaXmark className={styles.icon_close} />
                   </button>
                 </td>
               </tr>

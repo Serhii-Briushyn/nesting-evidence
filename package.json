@@ -1,13 +1,19 @@
 {
   "name": "nesting-evidence",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "0.0.1",
+  "main": "app/dist-electron/main.js",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "dev:renderer": "cross-env VITE_DEV_SERVER_URL=http://localhost:5173 vite --config app/renderer/vite.config.ts --port 5173 --strictPort",
+    "dev:electron": "tsc -p app/electron/tsconfig.electron.json --watch",
+    "dev:start": "wait-on tcp:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .",
+    "dev": "concurrently -k -n RENDERER,ELECTRON,START \"npm:dev:renderer\" \"npm:dev:electron\" \"npm:dev:start\"",
+    "build:renderer": "vite build --config app/renderer/vite.config.ts",
+    "build:electron": "tsc -p app/electron/tsconfig.electron.json",
+    "build": "npm run build:renderer && npm run build:electron",
+    "dist": "npm run build && electron-builder",
+    "start:prod": "cross-env VITE_DEV_SERVER_URL= electron ."
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -16,6 +22,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hot-toast": "^2.6.0",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^7.9.3",
     "uuid": "^13.0.0"
   },
@@ -26,12 +33,39 @@
     "@types/react-dom": "^19.1.9",
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^5.0.4",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron": "^38.2.2",
+    "electron-builder": "^26.0.12",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.45.0",
-    "vite": "^7.1.7"
+    "vite": "^7.1.7",
+    "wait-on": "^9.0.1"
+  },
+  "build": {
+    "appId": "com.nmh.nesting",
+    "productName": "Nesting Evidence",
+    "directories": {
+      "buildResources": "public"
+    },
+    "files": [
+      "app/renderer/dist/**",
+      "app/dist-electron/**",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "artifactName": "${productName}-Setup-${version}.exe"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
   }
 }

@@ -3,6 +3,7 @@ import React from "react";
 import styles from "../ArchivePage.module.css";
 
 import type { NestingRecord } from "@shared/types/nesting";
+import { FaXmark } from "react-icons/fa6";
 
 type Props = {
   item: NestingRecord;
@@ -26,15 +27,13 @@ export const RecordItem: React.FC<Props> = ({ item, index, onDelete }) => {
       <td>{formatTime(item.createdAt)}</td>
       <td>
         <button
-          className={styles.btn_table}
+          className={styles.btn_close}
           onClick={(e) => {
             e.stopPropagation();
             onDelete(item.id);
           }}
         >
-          <svg>
-            <use href="../../../shared/icons/close-large-line.svg" />
-          </svg>
+          <FaXmark className={styles.icon_close} />
         </button>
       </td>
     </tr>

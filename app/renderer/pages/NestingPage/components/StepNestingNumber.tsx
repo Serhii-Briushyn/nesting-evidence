@@ -1,4 +1,8 @@
+import { FaArrowRight } from "react-icons/fa6";
+
 import styles from "../NestingPage.module.css";
+
+import { normalizeNestingNumber } from "@features/nesting/lib/validate";
 
 type Props = {
   value: string;
@@ -23,14 +27,14 @@ export function StepNestingNumber({
         className={styles.input}
         placeholder="Zadajte číslo nestingu"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) =>
+          onChange(normalizeNestingNumber(e.target.value).slice(0, 10))
+        }
       />
       <div className={styles.actions}>
         <button className={styles.btn} onClick={onNext} disabled={nextDisabled}>
           Ďalej
-          <svg className={styles.icon_right}>
-            <use href="../../../shared/icons/arrow-right.svg" />
-          </svg>
+          <FaArrowRight className={styles.icon_right} />
         </button>
       </div>
     </section>

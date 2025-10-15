@@ -1,3 +1,5 @@
+import { FaXmark } from "react-icons/fa6";
+
 import styles from "../NestingPage.module.css";
 
 import type { ScanParsed } from "@features/nesting/types/scan";
@@ -34,10 +36,8 @@ export function MaterialTable({
             <td>{material.width}</td>
             <td>{material.length}</td>
             <td>
-              <button className={styles.btn_table} onClick={onRemove}>
-                <svg>
-                  <use href="../../../shared/icons/close-large-line.svg" />
-                </svg>
+              <button className={styles.btn_close} onClick={onRemove}>
+                <FaXmark className={styles.icon_close} />
               </button>
             </td>
           </tr>

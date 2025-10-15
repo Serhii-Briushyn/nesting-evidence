@@ -1,12 +1,14 @@
+import { FaArrowLeft } from "react-icons/fa6";
+
 import { ScanCapture } from "@features/nesting/components/ScanCapture/ScanCapture";
 import { showErrorToast } from "@shared/utils/showErrorToast";
+import { ScanWaiting } from "@shared/components/ScanWaiting/ScanWaiting";
 
 import styles from "../NestingPage.module.css";
 import { LeftoversTable } from "./LeftoversTable";
 
 import type { ScanParsed } from "@features/nesting/types/scan";
 import type { ScanCaptureHandle } from "@features/nesting/components/ScanCapture/ScanCapture";
-import { ScanWaiting } from "@shared/components/ScanWaiting/ScanWaiting";
 
 type Props = {
   scanRef: React.RefObject<ScanCaptureHandle | null>;
@@ -43,9 +45,7 @@ export function StepLeftovers({
       )}
       <div className={styles.actions}>
         <button className={styles.btn} onClick={onBack}>
-          <svg className={styles.icon_left}>
-            <use href="../../../shared/icons/arrow-left.svg" />
-          </svg>
+          <FaArrowLeft className={styles.icon_left} />
           Späť
         </button>
         <button
@@ -54,9 +54,6 @@ export function StepLeftovers({
           disabled={confirmDisabled}
         >
           {items.length === 0 ? "Uložiť bez leftovers" : "Uložiť"}
-          <svg className={styles.icon_right}>
-            <use href="../../../shared/icons/arrow-right.svg" />
-          </svg>
         </button>
       </div>
     </section>

@@ -1,12 +1,14 @@
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+
 import { ScanCapture } from "@features/nesting/components/ScanCapture/ScanCapture";
 import { showErrorToast } from "@shared/utils/showErrorToast";
+import { ScanWaiting } from "@shared/components/ScanWaiting/ScanWaiting";
 
 import styles from "../NestingPage.module.css";
 import { MaterialTable } from "./MaterialTable";
 
 import type { ScanParsed } from "@features/nesting/types/scan";
 import type { ScanCaptureHandle } from "@features/nesting/components/ScanCapture/ScanCapture";
-import { ScanWaiting } from "@shared/components/ScanWaiting/ScanWaiting";
 
 type Props = {
   scanRef: React.RefObject<ScanCaptureHandle | null>;
@@ -43,16 +45,12 @@ export function StepMaterial({
       )}
       <div className={styles.actions}>
         <button className={styles.btn} onClick={onBack}>
-          <svg className={styles.icon_left}>
-            <use href="../../../shared/icons/arrow-left.svg" />
-          </svg>
+          <FaArrowLeft className={styles.icon_left} />
           Späť
         </button>
         <button className={styles.btn} onClick={onNext} disabled={nextDisabled}>
           Ďalej
-          <svg className={styles.icon_right}>
-            <use href="../../../shared/icons/arrow-right.svg" />
-          </svg>
+          <FaArrowRight className={styles.icon_right} />
         </button>
       </div>
     </section>

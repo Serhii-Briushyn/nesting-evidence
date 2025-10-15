@@ -1,5 +1,5 @@
 import { AppError } from "./errors";
-import { MSG_ENTER_NESTING, MSG_MISSING_MATERIAL } from "./messages";
+import { MSG_NEED_NUM, MSG_NO_MAT } from "./messages";
 
 import type { ScanParsed } from "../types/scan";
 
@@ -7,9 +7,12 @@ export function validateBeforeSave(
   nesting: string,
   material: ScanParsed | null
 ) {
-  if (!nesting || !nesting.trim()) throw new AppError(MSG_ENTER_NESTING);
-  if (!material) throw new AppError(MSG_MISSING_MATERIAL);
+  const n = normalizeNestingNumber(nesting);
+  if (!n) throw new AppError(MSG_NEED_NUM);
+  if (!material) throw new AppError(MSG_NO_MAT);
 }
 
 export const normalizeNestingNumber = (s: string) =>
-  String(Number(String(s).replace(/\D+/g, "")));
+  String(s ?? "")
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "");

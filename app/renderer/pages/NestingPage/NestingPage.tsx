@@ -2,18 +2,15 @@ import { useMemo, useRef, useEffect } from "react";
 
 import toast from "react-hot-toast";
 
+import { useNestingHeader } from "@app/layouts/hooks/useNestingHeader";
+import { showErrorToast } from "@shared/utils/showErrorToast";
 import { keyOf } from "@features/nesting/lib/keyOf";
 import { normalizeNestingNumber } from "@features/nesting/lib/validate";
 import { saveCurrentProject } from "@features/nesting/services/records";
-import { showErrorToast } from "@shared/utils/showErrorToast";
 import { AppError } from "@features/nesting/lib/errors";
-import {
-  MSG_ASSIGNED_MISMATCH,
-  MSG_LEFTOVER_NEEDS_ASSIGNED,
-  MSG_SAVE_FAILED,
-} from "@features/nesting/lib/messages";
-import { useHeaderExtra } from "@app/layouts/hooks/useHeaderExtra";
+import { MSG_SAVE_ERR } from "@features/nesting/lib/messages";
 import { useNestingDraft } from "@features/nesting/context/useNestingDraft";
+import { validateLeftover } from "@features/nesting/lib/validateLeftover";
 
 import styles from "./NestingPage.module.css";
 import { StepNestingNumber } from "./components/StepNestingNumber";
@@ -36,13 +33,7 @@ export const NestingPage = () => {
     reset,
   } = useNestingDraft();
 
-  const { setHeaderExtra } = useHeaderExtra();
-
-  useEffect(() => {
-    const v = nestingNumber.trim();
-    setHeaderExtra(v ? v : "");
-    return () => setHeaderExtra("");
-  }, [nestingNumber, setHeaderExtra]);
+  useNestingHeader(nestingNumber);
 
   const nestingRef = useRef<HTMLInputElement | null>(null);
   const scanRef = useRef<ScanCaptureHandle | null>(null);
@@ -52,7 +43,11 @@ export const NestingPage = () => {
   }, [step]);
 
   const validators = useMemo(
-    () => [() => nestingNumber.trim().length > 0, () => !!material, () => true],
+    () => [
+      () => normalizeNestingNumber(nestingNumber).length > 0,
+      () => !!material,
+      () => true,
+    ],
     [nestingNumber, material]
   );
 
@@ -65,19 +60,13 @@ export const NestingPage = () => {
   const onParsedSingle = (p: ScanParsed) => setMaterial(p);
 
   const onParsedMulti = (p: ScanParsed) => {
-    if (!p.sourceNestingNumber?.trim()) {
-      showErrorToast(new AppError(MSG_LEFTOVER_NEEDS_ASSIGNED));
+    if (!material) return;
+    try {
+      validateLeftover(p, material.materialId, nestingNumber);
+    } catch (e) {
+      showErrorToast(e instanceof AppError ? e : new AppError(MSG_SAVE_ERR));
       return;
     }
-
-    const a = normalizeNestingNumber(p.sourceNestingNumber);
-    const b = normalizeNestingNumber(nestingNumber);
-
-    if (a !== b) {
-      showErrorToast(new AppError(MSG_ASSIGNED_MISMATCH));
-      return;
-    }
-
     setLeftovers((prev) =>
       prev.some((x) => keyOf(x) === keyOf(p)) ? prev : [...prev, p]
     );
@@ -101,7 +90,7 @@ export const NestingPage = () => {
 
       reset();
     } catch (e) {
-      showErrorToast(e instanceof AppError ? e : new AppError(MSG_SAVE_FAILED));
+      showErrorToast(e instanceof AppError ? e : new AppError(MSG_SAVE_ERR));
     }
   };
 

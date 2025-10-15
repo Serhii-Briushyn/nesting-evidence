@@ -7,10 +7,7 @@ import {
   parseScanLines,
 } from "@features/nesting/lib/parse";
 import { ScanParseError } from "@features/nesting/lib/errors";
-import {
-  MSG_INVALID_FIRST,
-  MSG_LINES_4_5,
-} from "@features/nesting/lib/messages";
+import { MSG_BAD_CODE, MSG_4_5 } from "@features/nesting/lib/messages";
 
 import type { ScanParsed } from "@features/nesting/types/scan";
 
@@ -66,7 +63,7 @@ export const ScanCapture = forwardRef<ScanCaptureHandle, Props>(
 
       if (mode === "idle") {
         if (!isMaterialIdLine(line)) {
-          onError?.(new ScanParseError(MSG_INVALID_FIRST));
+          onError?.(new ScanParseError(MSG_BAD_CODE));
           enterDiscard();
           return;
         }
@@ -85,7 +82,7 @@ export const ScanCapture = forwardRef<ScanCaptureHandle, Props>(
         if (isDimensionLine(line)) {
           const buf = bufferRef.current;
           if (buf.length !== 4 && buf.length !== 5) {
-            onError?.(new ScanParseError(MSG_LINES_4_5));
+            onError?.(new ScanParseError(MSG_4_5));
             return reset();
           }
           try {
