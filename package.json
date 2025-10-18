@@ -2,22 +2,28 @@
   "name": "nesting-evidence",
   "private": true,
   "version": "0.0.1",
-  "main": "app/dist-electron/main.js",
+  "description": "Warehouse nesting evidence desktop app",
+  "author": "Serhii Briushyn",
+  "main": "apps/main/dist/index.cjs",
   "scripts": {
     "lint": "eslint .",
-    "dev:renderer": "cross-env VITE_DEV_SERVER_URL=http://localhost:5173 vite --config app/renderer/vite.config.ts --port 5173 --strictPort",
-    "dev:electron": "tsc -p app/electron/tsconfig.electron.json --watch",
-    "dev:start": "wait-on tcp:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .",
-    "dev": "concurrently -k -n RENDERER,ELECTRON,START \"npm:dev:renderer\" \"npm:dev:electron\" \"npm:dev:start\"",
-    "build:renderer": "vite build --config app/renderer/vite.config.ts",
-    "build:electron": "tsc -p app/electron/tsconfig.electron.json",
-    "build": "npm run build:renderer && npm run build:electron",
+    "dev:renderer": "cd apps/renderer && vite --config vite.config.ts",
+    "dev:preload": "cd apps/preload  && vite build --watch --config vite.config.ts",
+    "dev:main:build": "cd apps/main && vite build --watch --config vite.config.ts",
+    "dev:main:run": "cross-env VITE_DEV_SERVER_URL=http://localhost:5173 ELECTRON_ENABLE_LOGGING=1 ELECTRON_ENABLE_STACK_DUMPING=1 nodemon --watch apps/main/dist --ext cjs,json --exec \"electron apps/main/dist/index.cjs\"",
+    "dev": "concurrently -k -n RENDERER,PRELOAD,MAIN-BUILD,MAIN-RUN \"npm run dev:renderer\" \"npm run dev:preload\" \"npm run dev:main:build\" \"npm run dev:main:run\"",
+    "build:renderer": "cd apps/renderer && vite build --config vite.config.ts",
+    "build:preload": "cd apps/preload  && vite build --config vite.config.ts",
+    "build:main": "cd apps/main     && vite build --config vite.config.ts",
+    "build": "npm run build:renderer && npm run build:preload && npm run build:main",
     "dist": "npm run build && electron-builder",
-    "start:prod": "cross-env VITE_DEV_SERVER_URL= electron ."
+    "release": "cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --publish always",
+    "start:prod": "cross-env VITE_DEV_SERVER_URL= electron apps/main/dist/index.cjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
     "dexie": "^4.2.0",
+    "electron-updater": "^6.6.2",
     "exceljs": "^4.4.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -41,31 +47,54 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
+    "nodemon": "^3.1.10",
+    "tsx": "^4.20.6",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.45.0",
     "vite": "^7.1.7",
+    "vite-tsconfig-paths": "^5.1.4",
     "wait-on": "^9.0.1"
   },
   "build": {
     "appId": "com.nmh.nesting",
     "productName": "Nesting Evidence",
     "directories": {
+      "output": "release",
       "buildResources": "public"
     },
     "files": [
-      "app/renderer/dist/**",
-      "app/dist-electron/**",
+      "apps/renderer/dist/**",
+      "apps/preload/dist/**",
+      "apps/main/dist/**",
       "package.json"
     ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Serhii-Briushyn",
+        "repo": "nesting-evidence"
+      }
+    ],
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Nesting Evidence",
+      "deleteAppDataOnUninstall": true
+    },
     "win": {
       "target": "nsis",
-      "artifactName": "${productName}-Setup-${version}.exe"
+      "artifactName": "${productName}-Setup-${version}.exe",
+      "icon": "public/icons/app.ico"
     },
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "icon": "public/icons/app.icns"
     },
     "linux": {
-      "target": "AppImage"
+      "target": "AppImage",
+      "icon": "public/icons"
     }
   }
 }
