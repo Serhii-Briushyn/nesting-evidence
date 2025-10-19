@@ -1,0 +1,88 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.title {
+  opacity: 0.9;
+  color: var(--color-white);
+}
+
+.scanner {
+  position: relative;
+  width: 320px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0 14px,
+    transparent 14px 28px
+  );
+  box-shadow: inset 0 0 0 1px rgba(255, 204, 0, 0.25),
+    0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.scanner::before,
+.scanner::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 24px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent);
+}
+
+.scanner::after {
+  top: auto;
+  bottom: 0;
+  transform: rotate(180deg);
+}
+
+.line {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 221, 87, 0.85),
+    rgba(255, 206, 0, 0.95),
+    rgba(255, 221, 87, 0.85)
+  );
+  box-shadow: 0 0 8px 2px rgba(255, 206, 0, 0.55),
+    0 0 18px 4px rgba(255, 206, 0, 0.35);
+  animation: scan 2s ease-in-out infinite;
+  animation-play-state: var(--scan-play, var(--scan-play-default)) !important;
+  opacity: var(--scan-opacity, var(--scan-opacity-default)) !important;
+}
+
+.line::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  top: -7px;
+  bottom: -7px;
+  border-radius: 6px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 206, 0, 0.18),
+    rgba(255, 206, 0, 0.06),
+    rgba(255, 206, 0, 0.18)
+  );
+  filter: blur(2px);
+}
+
+@keyframes scan {
+  0% {
+    top: 12px;
+  }
+  100% {
+    top: calc(100% - 12px);
+  }
+}

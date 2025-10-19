@@ -1,0 +1,12 @@
+:root {
+  --color-yellow: #fed631;
+  --color-yellow-hover: #e6c020;
+  --color-white: #ffffff;
+  --color-blue: #131557;
+  --color-blue-hover: #1b1f70;
+  --color-blue-light: #d5d7f0;
+  --color-red: #ff0000;
+  --color-green: #adff2f;
+  --scan-play-default: paused;
+  --scan-opacity-default: 0.35;
+}
