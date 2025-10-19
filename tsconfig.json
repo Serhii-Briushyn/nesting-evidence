@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "files": [],
+  "references": [
+    { "path": "./packages/ipc" },
+    { "path": "./apps/renderer" },
+    { "path": "./apps/main" },
+    { "path": "./apps/preload" }
+  ]
+}

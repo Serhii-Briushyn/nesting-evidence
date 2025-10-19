@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "composite": true
+  },
+  "references": [{ "path": "../../packages/ipc" }],
+  "include": ["src", "vite.config.ts"]
+}
