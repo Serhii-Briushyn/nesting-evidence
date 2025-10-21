@@ -7,17 +7,18 @@
   "main": "apps/main/dist/index.cjs",
   "scripts": {
     "lint": "eslint .",
+    "clean": "rimraf dist release apps/**/dist",
     "dev:renderer": "cd apps/renderer && vite --config vite.config.ts",
     "dev:preload": "cd apps/preload  && vite build --watch --config vite.config.ts",
     "dev:main:build": "cd apps/main && vite build --watch --config vite.config.ts",
     "dev:main:run": "cross-env VITE_DEV_SERVER_URL=http://localhost:5173 ELECTRON_ENABLE_LOGGING=1 ELECTRON_ENABLE_STACK_DUMPING=1 nodemon --watch apps/main/dist --ext cjs,json --exec \"electron apps/main/dist/index.cjs\"",
     "dev": "concurrently -k -n RENDERER,PRELOAD,MAIN-BUILD,MAIN-RUN \"npm run dev:renderer\" \"npm run dev:preload\" \"npm run dev:main:build\" \"npm run dev:main:run\"",
     "build:renderer": "cd apps/renderer && vite build --config vite.config.ts",
-    "build:preload": "cd apps/preload  && vite build --config vite.config.ts",
-    "build:main": "cd apps/main     && vite build --config vite.config.ts",
-    "build": "npm run build:renderer && npm run build:preload && npm run build:main",
+    "build:preload": "cd apps/preload && vite build --config vite.config.ts",
+    "build:main": "cd apps/main    && vite build --config vite.config.ts",
+    "build": "npm run clean && npm run build:renderer && npm run build:preload && npm run build:main",
     "dist": "npm run build && electron-builder",
-    "release": "cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --publish always",
+    "release": "npm run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --publish always",
     "start:prod": "cross-env VITE_DEV_SERVER_URL= electron apps/main/dist/index.cjs"
   },
   "dependencies": {
