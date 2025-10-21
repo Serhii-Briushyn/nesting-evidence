@@ -1,5 +1,7 @@
 import ExcelJS from "exceljs";
 
+import { excelDateFromYMD, formatYMD } from "@shared/utils/date";
+
 import type { NestingRecord } from "@shared/types/nesting";
 
 function materialCells(x: NestingRecord["material"]) {
@@ -89,7 +91,7 @@ export async function exportDailyXlsx(date: string, items: NestingRecord[]) {
 
   for (const rec of items) {
     const row: (string | number | Date)[] = [];
-    const jsDate = new Date(`${rec.date}T00:00:00`);
+    const jsDate = excelDateFromYMD(rec.date);
     row.push(jsDate);
     row.push(rec.nestingId);
     row.push(...materialCells(rec.material));
@@ -103,6 +105,9 @@ export async function exportDailyXlsx(date: string, items: NestingRecord[]) {
     ws.addRow(row);
   }
 
+  const dateCol = ws.getColumn(1);
+  dateCol.numFmt = "dd-mm-yyyy";
+
   const buffer = await wb.xlsx.writeBuffer();
   const blob = new Blob([buffer], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -110,7 +115,7 @@ export async function exportDailyXlsx(date: string, items: NestingRecord[]) {
 
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = `nesting_${date}.xlsx`;
+  a.download = `nesting_${formatYMD(date, "-")}.xlsx`;
   a.click();
 
   URL.revokeObjectURL(a.href);

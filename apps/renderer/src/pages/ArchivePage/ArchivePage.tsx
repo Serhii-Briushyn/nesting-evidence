@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { db } from "@shared/db";
-import { ymd } from "@shared/utils/date";
+import { formatYMD, ymd } from "@shared/utils/date";
 import { exportDailyXlsx } from "@features/excel/lib/exportDailyXlsx";
 
 import styles from "./ArchivePage.module.css";
@@ -47,7 +47,7 @@ export const ArchivePage = () => {
         />
 
         <h2 className={styles.subtitle}>
-          Projekty za {date} ({items.length})
+          Projekty za {formatYMD(date, ".")} ({items.length})
         </h2>
 
         <RecordList items={items} onDelete={handleDelete} />

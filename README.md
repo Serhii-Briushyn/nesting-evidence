@@ -7,16 +7,16 @@ Built with **React + Vite + Electron + Dexie + TypeScript**, it supports barcode
 
 ## 🚀 Main Features
 
-| Category | Description |
-|-----------|--------------|
-| 🧾 Nesting Records | Step-by-step creation of nesting projects: ID, main material, leftovers |
-| 🔍 Scanner Integration | Scans material labels with automatic parsing and data validation |
-| 💾 Local Database | Stores all records locally using **IndexedDB (Dexie)** — fully offline |
-| 📊 Archive | View all records by date and export daily data |
-| 📁 XLSX Export | Export data for a selected date with auto-generated filenames `nesting_YYYY-MM-DD_HH-mm.xlsx` |
-| 🧠 Data Validation | Detects duplicates, validates required fields, prevents incorrect input |
-| ⚡ Electron | Runs as a native desktop app with auto-updates |
-| 🌙 UI | Minimalist interface with focus control for scanner input |
+| Category               | Description                                                                             |
+| ---------------------- | --------------------------------------------------------------------------------------- |
+| 🧾 Nesting Records     | Step-by-step creation of nesting projects: ID, main material, leftovers                 |
+| 🔍 Scanner Integration | Scans material labels with automatic parsing and data validation                        |
+| 💾 Local Database      | Stores all records locally using **IndexedDB (Dexie)** — fully offline                  |
+| 📊 Archive             | View all records by date and export daily data                                          |
+| 📁 XLSX Export         | Export data for a selected date with auto-generated filenames `nesting_YYYY-MM-DD.xlsx` |
+| 🧠 Data Validation     | Detects duplicates, validates required fields, prevents incorrect input                 |
+| ⚡ Electron            | Runs as a native desktop app with auto-updates                                          |
+| 🌙 UI                  | Minimalist interface with focus control for scanner input                               |
 
 ---
 
@@ -28,11 +28,10 @@ Built with **React + Vite + Electron + Dexie + TypeScript**, it supports barcode
 ├── apps/
 │   ├── main/                     # Electron Main Process (creates the app window, handles IPC and auto-updates)
 │   │   ├── src/
-│   │   │   ├── app/
-│   │   │   │   └── ipc/
-│   │   │   │       ├── register.ts
-│   │   │   │       └── index.ts
-│   │   │   └── index.ts
+│   │   │   └── app/
+│   │   │       ├── ipc/
+│   │   │       │    └── register.ts
+│   │   │       └── index.ts
 │   │   ├── tsconfig.json
 │   │   └── vite.config.ts
 │   │
@@ -171,8 +170,8 @@ Component `ScanCapture`:
 ## 🗃 IndexedDB (Dexie)
 
 ```ts
-export const db = new Dexie("nesting_evidence");
-db.version(1).stores({ records: "id, date, createdAt" });
+export const db = new Dexie("nesting-evidence");
+db.version(1).stores({ records: "id, date, nestingId, createdAt" });
 
 await db.records.add({
   id: crypto.randomUUID(),
@@ -188,7 +187,7 @@ await db.records.add({
 
 ## 📤 XLSX Export
 
-File: `shared/utils/exportXlsx.ts`  
+File: `features/excel/lib/exportDailyXlsx.ts`  
 Generates Excel file with all daily records.  
 File name example: `nesting_2025-10-19.xlsx`
 
@@ -196,26 +195,26 @@ File name example: `nesting_2025-10-19.xlsx`
 
 ## 🧰 Tech Stack
 
-| Category | Technologies |
-|-----------|---------------|
-| 🧠 Language | TypeScript |
-| ⚛️ Frontend | React + Vite |
-| 🖥 Desktop | Electron |
-| 💾 Database | Dexie (IndexedDB) |
-| 📊 Export | ExcelJS |
-| 🎨 UI | CSS Modules |
+| Category        | Technologies                  |
+| --------------- | ----------------------------- |
+| 🧠 Language     | TypeScript                    |
+| ⚛️ Frontend     | React + Vite                  |
+| 🖥 Desktop       | Electron                      |
+| 💾 Database     | Dexie (IndexedDB)             |
+| 📊 Export       | ExcelJS                       |
+| 🎨 UI           | CSS Modules                   |
 | 🧱 Architecture | Feature-based + Electron Apps |
-| 🧩 Typing | Strict TS + Partial / Record |
+| 🧩 Typing       | Strict TS + Partial / Record  |
 
 ---
 
 ## 📜 Scripts
 
-| Command | Description |
-|----------|--------------|
-| `npm run dev` | Start development mode |
-| `npm run build` | Build renderer |
-| `npm run dist` | Build desktop installer (.exe) |
+| Command           | Description                                |
+| ----------------- | ------------------------------------------ |
+| `npm run dev`     | Start development mode                     |
+| `npm run build`   | Build renderer                             |
+| `npm run dist`    | Build desktop installer (.exe)             |
 | `npm run release` | Publish GitHub release (GH_TOKEN required) |
 
 ---
