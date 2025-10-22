@@ -11,6 +11,7 @@ import { AppError } from "@features/nesting/lib/errors";
 import { MSG_SAVE_ERR } from "@features/nesting/lib/messages";
 import { useNestingDraft } from "@features/nesting/context/useNestingDraft";
 import { validateLeftover } from "@features/nesting/lib/validateLeftover";
+import { makeLeftover } from "@features/nesting/lib/makeLeftover";
 
 import { StepNestingId } from "./components/StepNestingId";
 import { StepMaterial } from "./components/StepMaterial";
@@ -66,8 +67,7 @@ export const NestingPage = () => {
       showErrorToast(e instanceof AppError ? e : new AppError(MSG_SAVE_ERR));
       return;
     }
-
-    setLeftovers((prev) => [...prev, p]);
+    setLeftovers((prev) => [...prev, makeLeftover(p)]);
   };
 
   const removePrimary = () => {
@@ -75,8 +75,8 @@ export const NestingPage = () => {
     scanRef.current?.focus();
   };
 
-  const removeLeftover = (k: string) => {
-    setLeftovers((prev) => prev.filter((x) => keyOf(x) !== k));
+  const removeLeftover = (id: string) => {
+    setLeftovers((prev) => prev.filter((x) => x.id !== id));
     scanRef.current?.focus();
   };
 

@@ -1,18 +1,17 @@
-import { keyOf } from "@features/nesting/lib/keyOf";
-
 import { DeleteButton } from "@shared/ui/DeleteButton/DeleteButton";
 
 import styles from "../NestingPage.module.css";
 
-import type { ScanParsed } from "@features/nesting/types/scan";
+import type { Leftover } from "@features/nesting/types/leftover";
 
 type Props = {
-  items: ScanParsed[];
-  onRemove: (key: string) => void;
+  items: Leftover[];
+  onRemove: (id: string) => void;
 };
 
 export const LeftoversTable = ({ items, onRemove }: Props) => {
   if (items.length === 0) return null;
+
   return (
     <div className={styles.table_wrap}>
       <table className={styles.table}>
@@ -31,9 +30,8 @@ export const LeftoversTable = ({ items, onRemove }: Props) => {
         </thead>
         <tbody className={styles.tbody}>
           {items.map((row, i) => {
-            const k = keyOf(row);
             return (
-              <tr key={k}>
+              <tr key={row.id}>
                 <td>{i + 1}</td>
                 <td>{row.materialId}</td>
                 <td>{row.steelGrade}</td>
@@ -43,7 +41,7 @@ export const LeftoversTable = ({ items, onRemove }: Props) => {
                 <td>{row.width}</td>
                 <td>{row.length}</td>
                 <td>
-                  <DeleteButton onClick={() => onRemove(k)} />
+                  <DeleteButton onClick={() => onRemove(row.id)} />
                 </td>
               </tr>
             );

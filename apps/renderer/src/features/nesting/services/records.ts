@@ -4,11 +4,14 @@ import { db } from "@shared/db";
 import { ymd } from "@shared/utils/date";
 
 import type { ScanParsed } from "../types/scan";
+import type { Leftover } from "../types/leftover";
+
+const stripId = ({ id, ...rest }: Leftover): ScanParsed => rest;
 
 export async function saveCurrentProject(
   rawNestingId: string,
   material: ScanParsed,
-  leftovers: ScanParsed[]
+  leftovers: ReadonlyArray<Leftover>
 ) {
   validateBeforeSave(rawNestingId, material);
 
@@ -17,7 +20,7 @@ export async function saveCurrentProject(
     date: ymd(),
     nestingId: rawNestingId.trim(),
     material,
-    leftovers,
+    leftovers: leftovers.map(stripId),
     createdAt: Date.now(),
   };
   await db.records.add(rec);

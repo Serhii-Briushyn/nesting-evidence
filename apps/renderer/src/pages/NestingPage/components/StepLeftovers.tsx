@@ -9,12 +9,13 @@ import { LeftoversTable } from "./LeftoversTable";
 
 import type { ScanParsed } from "@features/nesting/types/scan";
 import type { ScanCaptureHandle } from "@features/nesting/components/ScanCapture/ScanCapture";
+import type { Leftover } from "@features/nesting/types/leftover";
 
 type Props = {
   scanRef: React.RefObject<ScanCaptureHandle | null>;
-  items: ScanParsed[];
+  items: Leftover[];
   onParsed: (p: ScanParsed) => void;
-  onRemove: (key: string) => void;
+  onRemove: (id: string) => void;
   onBack: () => void;
   onConfirm: () => void;
   confirmDisabled: boolean;
