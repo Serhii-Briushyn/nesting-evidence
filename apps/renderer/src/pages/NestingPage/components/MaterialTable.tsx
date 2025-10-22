@@ -4,15 +4,14 @@ import styles from "../NestingPage.module.css";
 
 import type { ScanParsed } from "@features/nesting/types/scan";
 
-export const MaterialTable = ({
-  material,
-  onRemove,
-}: {
+type Props = {
   material: ScanParsed;
   onRemove: () => void;
-}) => {
+};
+
+export const MaterialTable = ({ material, onRemove }: Props) => {
   return (
-    <div className={styles.table_box}>
+    <div className={styles.table_wrap}>
       <table className={styles.table}>
         <thead className={styles.thead}>
           <tr>

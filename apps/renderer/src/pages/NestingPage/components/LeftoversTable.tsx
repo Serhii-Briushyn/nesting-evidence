@@ -6,13 +6,12 @@ import styles from "../NestingPage.module.css";
 
 import type { ScanParsed } from "@features/nesting/types/scan";
 
-export const LeftoversTable = ({
-  items,
-  onRemove,
-}: {
+type Props = {
   items: ScanParsed[];
   onRemove: (key: string) => void;
-}) => {
+};
+
+export const LeftoversTable = ({ items, onRemove }: Props) => {
   if (items.length === 0) return null;
   return (
     <div className={styles.table_wrap}>
