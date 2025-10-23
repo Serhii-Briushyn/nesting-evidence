@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 
 import { useNestingHeader } from "@app/layouts/hooks/useNestingHeader";
 import { showErrorToast } from "@shared/utils/showErrorToast";
-import { keyOf } from "@features/nesting/lib/keyOf";
 import { normalizeNestingId } from "@features/nesting/lib/validate";
 import { saveCurrentProject } from "@features/nesting/services/records";
 import { AppError } from "@features/nesting/lib/errors";
@@ -18,7 +17,7 @@ import { StepMaterial } from "./components/StepMaterial";
 import { StepLeftovers } from "./components/StepLeftovers";
 
 import type { ScanParsed } from "@features/nesting/types/scan";
-import type { ScanCaptureHandle } from "@features/nesting/components/ScanCapture/ScanCapture";
+import type { ScanCaptureHandle } from "@features/nesting/components/ScanCapture";
 
 export const NestingPage = () => {
   const {

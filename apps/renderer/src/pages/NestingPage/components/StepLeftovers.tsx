@@ -1,6 +1,6 @@
 import { FaArrowLeft } from "react-icons/fa6";
 
-import { ScanCapture } from "@features/nesting/components/ScanCapture/ScanCapture";
+import { ScanCapture } from "@features/nesting/components/ScanCapture";
 import { showErrorToast } from "@shared/utils/showErrorToast";
 import { ScanWaiting } from "@shared/ui/ScanWaiting/ScanWaiting";
 
@@ -8,7 +8,7 @@ import styles from "../NestingPage.module.css";
 import { LeftoversTable } from "./LeftoversTable";
 
 import type { ScanParsed } from "@features/nesting/types/scan";
-import type { ScanCaptureHandle } from "@features/nesting/components/ScanCapture/ScanCapture";
+import type { ScanCaptureHandle } from "@features/nesting/components/ScanCapture";
 import type { Leftover } from "@features/nesting/types/leftover";
 
 type Props = {

@@ -60,23 +60,27 @@ Built with **React + Vite + Electron + Dexie + TypeScript**, it supports barcode
 │       │   │
 │       │   ├── features/
 │       │   │   ├── excel/
-│       │   │   │   └── lib/exportDailyXlsx.ts
+│       │   │   │   └── lib/
+│       │   │   │       └── exportDailyXlsx.ts
 │       │   │   └── nesting/
 │       │   │       ├── components/
-│       │   │       │   └── ScanCapture/ScanCapture.tsx
+│       │   │       │   └── ScanCapture.tsx
 │       │   │       ├── context/
 │       │   │       │   ├── NestingDraftContext.ts
 │       │   │       │   ├── NestingDraftProvider.tsx
 │       │   │       │   └── useNestingDraft.ts
 │       │   │       ├── lib/
 │       │   │       │   ├── errors.ts
-│       │   │       │   ├── keyOf.ts
+│       │   │       │   ├── makeLeftover.ts
 │       │   │       │   ├── messages.ts
 │       │   │       │   ├── parse.ts
 │       │   │       │   ├── validate.ts
 │       │   │       │   └── validateLeftover.ts
-│       │   │       ├── services/records.ts
-│       │   │       └── types/scan.ts
+│       │   │       ├── services/
+│       │   │       │   └── records.ts
+│       │   │       └── types/
+│       │   │           ├── leftover.ts
+│       │   │           └── scan.ts
 │       │   │
 │       │   ├── pages/
 │       │   │   ├── HomePage.tsx
