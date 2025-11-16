@@ -61,7 +61,7 @@ export const NestingPage = () => {
   const onParsedMulti = (p: ScanParsed) => {
     if (!material) return;
     try {
-      validateLeftover(p, material.materialId, nestingId);
+      validateLeftover(p, material, nestingId);
     } catch (e) {
       showErrorToast(e instanceof AppError ? e : new AppError(MSG_SAVE_ERR));
       return;
