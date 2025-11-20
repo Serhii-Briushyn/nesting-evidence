@@ -72,12 +72,6 @@ function setupAutoUpdater() {
 
   autoUpdater.on("error", (err) => {
     console.error("[update] Error:", err);
-    dialog.showMessageBox({
-      type: "error",
-      title: "Update error",
-      message: "Failed to check or download updates.",
-      detail: String(err),
-    });
     if (win) win.setProgressBar(-1);
   });
 
