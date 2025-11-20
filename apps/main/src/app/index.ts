@@ -97,7 +97,9 @@ function setupAutoUpdater() {
     }
   });
 
-  autoUpdater.checkForUpdatesAndNotify();
+  autoUpdater.checkForUpdates().catch((err) => {
+    console.error("[update] checkForUpdates failed:", err);
+  });
 }
 
 const gotLock = app.requestSingleInstanceLock();
