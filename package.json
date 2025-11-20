@@ -1,7 +1,7 @@
 {
   "name": "nesting-evidence",
   "private": true,
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Warehouse nesting evidence desktop app",
   "author": "Serhii Briushyn",
   "main": "apps/main/dist/index.cjs",
